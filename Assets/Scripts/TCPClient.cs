@@ -14,15 +14,13 @@ public class TCPClient : MonoBehaviour
 	private TcpClient m_Client;
 	private Thread m_ThrdClientReceive;
 
-	public bool isConnceting = false;
+	public bool isConnected = false;
+	Playertransform pt = new Playertransform();
 
-    private void Awake()
-    {
-		DestroyCheck();
-    }
-	void Update()
+	private void Awake()
 	{
-		SendMessages("클라이언트에서 보내는 값");
+		if (!isConnected) ConnectToTcpServer();
+		DestroyCheck();
 	}
 
 	void OnApplicationQuit()
@@ -51,14 +49,13 @@ public class TCPClient : MonoBehaviour
 	{
 		try
 		{
-			isConnceting = true;
+			isConnected = true;
 			m_ThrdClientReceive = new Thread(new ThreadStart(ListenForData));
 			m_ThrdClientReceive.IsBackground = true;
 			m_ThrdClientReceive.Start();
 		}
 		catch (Exception ex)
 		{
-			isConnceting = false;
 			Debug.Log(ex);
 		}
 	}
@@ -68,6 +65,7 @@ public class TCPClient : MonoBehaviour
 		try
 		{
 			m_Client = new TcpClient(m_Ip, m_Port);
+
 			Byte[] bytes = new Byte[1024];
 			while (true)
 			{
@@ -81,8 +79,6 @@ public class TCPClient : MonoBehaviour
 						Array.Copy(bytes, 0, incommingData, 0, length);
 
 						string serverMessage = Encoding.Default.GetString(incommingData);
-						Debug.Log(serverMessage); // 받은 값
-
 					}
 				}
 			}
@@ -90,32 +86,29 @@ public class TCPClient : MonoBehaviour
 
 		catch (SocketException ex)
 		{
-			isConnceting = false;
 			Debug.Log(ex);
 		}
 	}
 
-	void SendMessages(string message)
+	public void PacketTransfer(byte[] clientMessageAsByteArray)
 	{
 		if (m_Client == null)
 		{
 			return;
 		}
-
 		try
 		{
 			NetworkStream stream = m_Client.GetStream();
 
 			if (stream.CanWrite)
 			{
-				byte[] clientMessageAsByteArray = Encoding.Default.GetBytes(message);
 				stream.Write(clientMessageAsByteArray, 0, clientMessageAsByteArray.Length);
 			}
 		}
-
 		catch (SocketException ex)
 		{
 			Debug.Log(ex);
 		}
 	}
 }
+

@@ -1,37 +1,78 @@
+using System.Collections;
+using System.Collections.Generic;
 using System;
 using System.Runtime.InteropServices;
+using System.IO;
+using System.Runtime.Serialization.Formatters.Binary;
 
-[StructLayout(LayoutKind.Sequential, CharSet = CharSet.Ansi, Pack = 1)]
-[Serializable]
-public struct ToClientPacket
+public enum PacketType : int
 {
-    [MarshalAs(UnmanagedType.Bool)]
-    public bool m_BoolVariable;
-    public int m_IntVariable;
-    [MarshalAs(UnmanagedType.ByValArray, SizeConst = 2)]
-    public int[] m_IntArray;
-    public float m_FloatlVariable;
-    [MarshalAs(UnmanagedType.ByValTStr, SizeConst = 32)]
-    public string m_StringlVariable;
+    PlayerInfo,
+    PlayerPos,
+    Interactive,
+    ChatGPT,
+    Chatting
 }
 
-
-[StructLayout(LayoutKind.Sequential, CharSet = CharSet.Ansi, Pack = 1)]
 [Serializable]
-public struct ToServerPacket
+public class DefaultPacket
 {
-    [MarshalAs(UnmanagedType.ByValArray, SizeConst = 2)]
-    public int[] m_IntArray;
-    public float m_FloatlVariable;
-    [MarshalAs(UnmanagedType.ByValTStr, SizeConst = 32)]
-    public string m_StringlVariable;
-    [MarshalAs(UnmanagedType.Bool)]
-    public bool m_BoolVariable;
-    public int m_IntVariable;
+    public int packet_Type;
+
+    public DefaultPacket()
+    {
+        this.packet_Type = 0;
+    }
+
+    public static byte[] Serialize(Object data)
+    {
+        try
+        {
+            MemoryStream ms = new MemoryStream(1024 * 4);
+            BinaryFormatter bf = new BinaryFormatter();
+            bf.Serialize(ms, data);
+            return ms.ToArray();
+        }
+        catch
+        {
+            return null;
+        }
+    }
+
+    public static Object Deserialize(byte[] data)
+    {
+        try
+        {
+            MemoryStream ms = new MemoryStream(1024 * 4);
+            ms.Write(data, 0, data.Length);
+
+            ms.Position = 0;
+            BinaryFormatter bf = new BinaryFormatter();
+            Object obj = bf.Deserialize(ms);
+            ms.Close();
+            return obj;
+        }
+        catch
+        {
+            return null;
+        }
+    }
 }
-[StructLayout(LayoutKind.Sequential, CharSet = CharSet.Ansi, Pack = 1)]
+
 [Serializable]
-public struct PlayerInfo
+public class PlayerInfo : DefaultPacket
+{
+    public string Pname;
+    public int classRoom;
+
+    public PlayerInfo()
+    {
+        this.packet_Type = (int)PacketType.PlayerInfo;
+    }
+}
+
+[Serializable]
+public class Playertransform : DefaultPacket
 {
     public float Px;
     public float Py;
@@ -43,17 +84,14 @@ public struct PlayerInfo
     public float Speed;
     public float MotionSpeed;
 
-    [MarshalAs(UnmanagedType.Bool)]
     public bool Jump;
-    [MarshalAs(UnmanagedType.Bool)]
     public bool Grounded;
-    [MarshalAs(UnmanagedType.Bool)]
     public bool FreeFall;
 
-    [MarshalAs(UnmanagedType.Bool)]
-    public bool Roll_Anim;
-    [MarshalAs(UnmanagedType.Bool)]
-    public bool Walk_Anim;
-    [MarshalAs(UnmanagedType.Bool)]
-    public bool Open_Anim;
+    public Playertransform()
+    {
+        this.packet_Type = (int)PacketType.PlayerPos;
+    }
 }
+
+

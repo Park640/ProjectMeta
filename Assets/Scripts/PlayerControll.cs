@@ -13,18 +13,22 @@ namespace OpenAI
         [SerializeField] private GameObject tablet;
         [SerializeField] private TMP_InputField inputField;
         [SerializeField] private ChatGPT gpt;
+        [SerializeField] private TCPClient tcpClient;
+        [SerializeField] private Animator anim;
 
         private PlayerInput pInput;
-
         private int pState = 0;
         private int pCount;
         private void Awake()
         {
+            anim = GetComponent<Animator>();
+            tcpClient = FindObjectOfType<TCPClient>();
             pCount = perspective.Length;
             pInput = GetComponent<PlayerInput>();
         }
         private void Update()
         {
+            PlayerPositionTransfer();
             if (Input.GetKeyDown(KeyCode.P))
             {
                 perspective[pState].SetActive(false);
@@ -50,6 +54,25 @@ namespace OpenAI
                 pInput.enabled = true;
             }
         }
+        private void PlayerPositionTransfer()
+        {
+            Playertransform pf = new Playertransform();
+            pf.Px = transform.position.x;
+            pf.Py = transform.position.y;
+            pf.Pz = transform.position.z;
+
+            pf.Ry = transform.rotation.y;
+
+            pf.Speed = anim.GetFloat("Speed");
+            pf.MotionSpeed = anim.GetFloat("MotionSpeed");
+
+            pf.Jump = anim.GetBool("Jump");
+            pf.Grounded = anim.GetBool("Grounded");
+            pf.FreeFall = anim.GetBool("FreeFall");
+
+            tcpClient.PacketTransfer(DefaultPacket.Serialize(pf));
+
+        }
         private void OnControllerColliderHit(ControllerColliderHit hit)
         {
             if (hit.gameObject.CompareTag("Interactive") && Input.GetKeyUp(KeyCode.E))
@@ -61,3 +84,8 @@ namespace OpenAI
         }
     }
 }
+
+
+
+
+
