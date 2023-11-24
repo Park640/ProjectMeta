@@ -26,6 +26,7 @@ public class IntroUI : MonoBehaviour
 
     [SerializeField] TMP_InputField nameSpace;
 
+
     private PlayerInfo pInfo = new PlayerInfo();
 
     private int sceneNo = 1;
@@ -67,6 +68,8 @@ public class IntroUI : MonoBehaviour
         tcpClient.PacketTransfer(DefaultPacket.Serialize(pInfo));
         SceneManager.LoadScene(sceneNo);
     }
+
+    
 }
 
 

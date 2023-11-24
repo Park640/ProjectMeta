@@ -23,6 +23,7 @@ namespace OpenAI
         public string fromGPT;
         public string fromTTS;
 
+        public CanvasControll canvasC;
         [SerializeField] private Animator anim;
 
         private void Awake()
@@ -112,6 +113,7 @@ namespace OpenAI
 
             audioS.clip = audioClip;
             audioS.Play();
+            canvasC.StartTwinkle(fromGPT);
         }
         public void CreateAudio()
         {

@@ -28,7 +28,7 @@ namespace OpenAI
         }
         private void Update()
         {
-            PlayerPositionTransfer();
+            //PlayerPositionTransfer();
             if (Input.GetKeyDown(KeyCode.P))
             {
                 perspective[pState].SetActive(false);

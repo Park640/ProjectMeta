@@ -75,13 +75,19 @@ public class TCPClient : MonoBehaviour
 
 					while ((length = stream.Read(bytes, 0, bytes.Length)) != 0)
 					{
-						var incommingData = new byte[length];
-						Array.Copy(bytes, 0, incommingData, 0, length);
+						DefaultPacket packet = (DefaultPacket)DefaultPacket.Deserialize(bytes);
 
-						string serverMessage = Encoding.Default.GetString(incommingData);
+						switch (packet.packet_Type)
+						{
+							case (int)PacketType.PlayerPos:
+								Playertransform pt = (Playertransform)DefaultPacket.Deserialize(bytes);
+								Debug.Log(pt.Px + ":" + pt.Py + ":" + pt.Pz);
+								break;
+						}
 					}
 				}
 			}
+
 		}
 
 		catch (SocketException ex)
