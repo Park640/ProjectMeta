@@ -49,7 +49,6 @@ namespace OpenAI
         }
         private void Update()
         {
-            AboveUIPosition();
             if (!photon.IsMine)
             {
                 pInput.enabled = false;
@@ -81,6 +80,8 @@ namespace OpenAI
                 tablet.SetActive(false);
                 pInput.enabled = true;
             }
+            AboveUIPosition();
+
         }
         private void LateUpdate()
         {
