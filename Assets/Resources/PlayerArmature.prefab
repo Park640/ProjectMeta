@@ -674,6 +674,7 @@ MonoBehaviour:
   BottomClamp: -30
   CameraAngleOverride: 0
   LockCameraPosition: 0
+  photon: {fileID: 4620394327963549792}
 --- !u!114 &8166542392901053010
 MonoBehaviour:
   m_ObjectHideFlags: 0

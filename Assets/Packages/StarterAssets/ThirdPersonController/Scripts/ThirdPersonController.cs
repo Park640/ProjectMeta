@@ -1,6 +1,8 @@
 ﻿ using UnityEngine;
 #if ENABLE_INPUT_SYSTEM 
 using UnityEngine.InputSystem;
+using Photon.Pun;
+using Photon.Realtime;
 #endif
 
 /* Note: animations are called via the controller for both the character and capsule using animator null checks
@@ -12,7 +14,7 @@ namespace StarterAssets
 #if ENABLE_INPUT_SYSTEM 
     [RequireComponent(typeof(PlayerInput))]
 #endif
-    public class ThirdPersonController : MonoBehaviour
+    public class ThirdPersonController : MonoBehaviourPunCallbacks
     {
         [Header("Player")]
         [Tooltip("Move speed of the character in m/s")]
@@ -122,7 +124,7 @@ namespace StarterAssets
             }
         }
 
-
+        public PhotonView photon;
         private void Awake()
         {
             // get a reference to our main camera
@@ -154,11 +156,15 @@ namespace StarterAssets
 
         private void Update()
         {
-            _hasAnimator = TryGetComponent(out _animator);
+            if (photon.IsMine)
+            {
+                _hasAnimator = TryGetComponent(out _animator);
 
-            JumpAndGravity();
-            GroundedCheck();
-            Move();
+                JumpAndGravity();
+                GroundedCheck();
+                Move();
+            }
+
         }
 
         private void LateUpdate()
