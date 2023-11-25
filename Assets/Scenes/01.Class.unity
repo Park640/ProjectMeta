@@ -701,7 +701,6 @@ GameObject:
   - component: {fileID: 346068982}
   - component: {fileID: 346068984}
   - component: {fileID: 346068983}
-  - component: {fileID: 346068985}
   m_Layer: 0
   m_Name: Teacher
   m_TagString: Untagged
@@ -873,25 +872,10 @@ MonoBehaviour:
   observableSearch: 2
   ObservedComponents:
   - {fileID: 346068983}
-  - {fileID: 346068985}
   - {fileID: 114253074203316849}
   sceneViewId: 3
   InstantiationId: 0
   isRuntimeInstantiated: 0
---- !u!114 &346068985
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 346068979}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 9554e15736ac3994fa401bdf9a2fcdeb, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  audioS: {fileID: 346068982}
-  PV: {fileID: 346068984}
 --- !u!1 &453681405
 GameObject:
   m_ObjectHideFlags: 0
@@ -1872,7 +1856,6 @@ GameObject:
   - component: {fileID: 1407234465}
   - component: {fileID: 1407234467}
   - component: {fileID: 1407234469}
-  - component: {fileID: 1407234468}
   m_Layer: 0
   m_Name: Text (TMP)
   m_TagString: Untagged
@@ -2060,20 +2043,6 @@ MonoBehaviour:
   m_ChildScaleWidth: 0
   m_ChildScaleHeight: 0
   m_ReverseArrangement: 0
---- !u!114 &1407234468
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 1407234463}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 40b3208d6ea53924f88f05a959c7c96e, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  text: {fileID: 1407234465}
-  PV: {fileID: 1407234469}
 --- !u!114 &1407234469
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -2092,8 +2061,7 @@ MonoBehaviour:
   Synchronization: 3
   OwnershipTransfer: 0
   observableSearch: 2
-  ObservedComponents:
-  - {fileID: 1407234468}
+  ObservedComponents: []
   sceneViewId: 4
   InstantiationId: 0
   isRuntimeInstantiated: 0

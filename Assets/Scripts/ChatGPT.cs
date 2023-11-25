@@ -5,10 +5,11 @@ using UnityEngine;
 using System.Threading.Tasks;
 using UnityEngine.Networking;
 using System.IO;
-
+using Photon.Pun;
+using Photon.Realtime;
 namespace OpenAI 
 {
-    public class ChatGPT : MonoBehaviour
+    public class ChatGPT : MonoBehaviourPunCallbacks
     {
         private OpenAIApi openai = new OpenAIApi();
         private List<ChatMessage> messages = new List<ChatMessage>();
@@ -81,12 +82,17 @@ namespace OpenAI
                 fromGPT = message.Content;
                 messages.RemoveAt(EOI);
             }
-            StartCoroutine(TextToSpeak());
+            photonView.RPC("PlayingAudio", RpcTarget.All);
         }
         public async void Talk(string s)
         {
             anim.SetBool("Roll_Anim", true);
             await TextToGPT(s);
+        }
+        [PunRPC]
+        void PlayingAudio()
+        {
+            StartCoroutine(TextToSpeak());
         }
         IEnumerator TextToSpeak()
         {
