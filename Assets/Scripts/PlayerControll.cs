@@ -22,11 +22,13 @@ namespace OpenAI
 
         public CinemachineVirtualCamera[] cameras;
         public PhotonView photon;
+
         private PlayerInput pInput;
         private int pState = 0;
         private int pCount;
         private void Awake()
         {
+            gpt = FindObjectOfType<ChatGPT>();
             canvas = FindAnyObjectByType<Canvas>();
             tablet = canvas.GetComponentInChildren<TabletUI>(true).gameObject;
             inputField = tablet.GetComponentInChildren<TMP_InputField>();

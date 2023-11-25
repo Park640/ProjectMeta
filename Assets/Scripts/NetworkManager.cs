@@ -14,6 +14,7 @@ public class NetworkManager : MonoBehaviourPunCallbacks
     private void Awake()
     {
         startPos.Add(new Vector3(-8.07f, 0.1f, -12.29f));
+        startPos.Add(new Vector3(-5.4f, 0.1f, -6f));
         DestroyCheck();
         if (!PhotonNetwork.IsConnected)
         {

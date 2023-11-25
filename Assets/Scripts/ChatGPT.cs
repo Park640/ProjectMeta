@@ -6,7 +6,6 @@ using System.Threading.Tasks;
 using UnityEngine.Networking;
 using System.IO;
 
-
 namespace OpenAI 
 {
     public class ChatGPT : MonoBehaviour
