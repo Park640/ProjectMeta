@@ -82,18 +82,14 @@ namespace OpenAI
                 fromGPT = message.Content;
                 messages.RemoveAt(EOI);
             }
-            photonView.RPC("PlayingAudio", RpcTarget.All);
+            StartCoroutine(TextToSpeak());
         }
         public async void Talk(string s)
         {
             anim.SetBool("Roll_Anim", true);
             await TextToGPT(s);
         }
-        [PunRPC]
-        void PlayingAudio()
-        {
-            StartCoroutine(TextToSpeak());
-        }
+
         IEnumerator TextToSpeak()
         {
             AudioSetting(fromGPT);
@@ -120,6 +116,7 @@ namespace OpenAI
             audioS.Play();
             canvasC.StartTwinkle(fromGPT);
         }
+
         public void CreateAudio()
         {
             var str = fromTTS;

@@ -23,11 +23,15 @@ namespace OpenAI
         public CinemachineVirtualCamera[] cameras;
         public PhotonView photon;
 
+        public GameObject aboveUI;
+
+        private TextMeshProUGUI nameTxt;
         private PlayerInput pInput;
         private int pState = 0;
         private int pCount;
         private void Awake()
         {
+            aboveUI = FindObjectOfType<AboveUI>().gameObject;
             gpt = FindObjectOfType<ChatGPT>();
             canvas = FindAnyObjectByType<Canvas>();
             tablet = canvas.GetComponentInChildren<TabletUI>(true).gameObject;
@@ -38,8 +42,14 @@ namespace OpenAI
             pCount = perspective.Length;
             pInput = GetComponent<PlayerInput>();
         }
+
+        public void AboveUIPosition()
+        {
+            aboveUI.transform.position = Camera.main.WorldToScreenPoint(transform.position + new Vector3(0, 1.8f, 0));
+        }
         private void Update()
         {
+            AboveUIPosition();
             if (!photon.IsMine)
             {
                 pInput.enabled = false;

@@ -834,6 +834,7 @@ MonoBehaviour:
   - {fileID: 2375963881705462437}
   - {fileID: 4342729224039293205}
   photon: {fileID: 4620394327963549792}
+  aboveUI: {fileID: 0}
 --- !u!114 &4620394327963549792
 MonoBehaviour:
   m_ObjectHideFlags: 0

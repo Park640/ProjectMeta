@@ -6,7 +6,7 @@ using Photon.Realtime;
 
 public class NetworkManager : MonoBehaviourPunCallbacks
 {
-    [SerializeField] private string playerName;
+    [SerializeField] public string playerName;
     [SerializeField] private int classNo;
 
     public List<Vector3> startPos = new List<Vector3>();
