@@ -64,11 +64,6 @@ public class PlayerInfo : DefaultPacket
 {
     public string Pname;
     public int classRoom;
-
-    public PlayerInfo()
-    {
-        this.packet_Type = (int)PacketType.PlayerInfo;
-    }
 }
 
 [Serializable]

@@ -15,12 +15,17 @@ namespace OpenAI
         [SerializeField] private ChatGPT gpt;
         [SerializeField] private TCPClient tcpClient;
         [SerializeField] private Animator anim;
+        [SerializeField] private Canvas canvas;
 
         private PlayerInput pInput;
         private int pState = 0;
         private int pCount;
         private void Awake()
         {
+            canvas = FindAnyObjectByType<Canvas>();
+            tablet = canvas.GetComponentInChildren<TabletUI>(true).gameObject;
+            inputField = tablet.GetComponentInChildren<TMP_InputField>();
+            //tablet = FindObjectOfType<TabletUI>(true).gameObject;
             anim = GetComponent<Animator>();
             tcpClient = FindObjectOfType<TCPClient>();
             pCount = perspective.Length;
@@ -28,7 +33,6 @@ namespace OpenAI
         }
         private void Update()
         {
-            //PlayerPositionTransfer();
             if (Input.GetKeyDown(KeyCode.P))
             {
                 perspective[pState].SetActive(false);
@@ -54,10 +58,14 @@ namespace OpenAI
                 pInput.enabled = true;
             }
         }
+        private void LateUpdate()
+        {
+
+        }
         private void PlayerPositionTransfer()
         {
             Playertransform pf = new Playertransform();
-            pf.Px = transform.position.x;
+           /* pf.Px = transform.position.x;
             pf.Py = transform.position.y;
             pf.Pz = transform.position.z;
 
@@ -68,7 +76,7 @@ namespace OpenAI
 
             pf.Jump = anim.GetBool("Jump");
             pf.Grounded = anim.GetBool("Grounded");
-            pf.FreeFall = anim.GetBool("FreeFall");
+            pf.FreeFall = anim.GetBool("FreeFall");*/
 
             tcpClient.PacketTransfer(DefaultPacket.Serialize(pf));
 

@@ -7,7 +7,8 @@ using System.Text;
 using UnityEngine.Networking;
 using UnityEngine.SceneManagement;
 using System;
-
+using System.Net;
+using System.Net.Sockets;
 
 public class IntroUI : MonoBehaviour
 {
@@ -26,12 +27,14 @@ public class IntroUI : MonoBehaviour
 
     [SerializeField] TMP_InputField nameSpace;
 
+    [SerializeField] NetworkManager network;
 
     private PlayerInfo pInfo = new PlayerInfo();
 
-    private int sceneNo = 1;
+    private int classNo = 1;
     private bool start = true;
 
+    int no = 0;
     private void ButtonEnable()
     {
         if (string.IsNullOrEmpty(nameInput.text))
@@ -47,7 +50,7 @@ public class IntroUI : MonoBehaviour
     public void ClassChoice(int n)
     {
         classFrame.rectTransform.position = classBtn[n - 1].position;
-        sceneNo = n;
+        classNo = n;
     }
 
     private void Update()
@@ -63,10 +66,9 @@ public class IntroUI : MonoBehaviour
 
     public void SendPlayerInfo()
     {
-        pInfo.Pname = nameSpace.text;
-        pInfo.classRoom = sceneNo;
-        tcpClient.PacketTransfer(DefaultPacket.Serialize(pInfo));
-        SceneManager.LoadScene(sceneNo);
+        network.PlayerSetting(nameInput.text, classNo);
+        network.JoinOrCreateRoom();
+        SceneManager.LoadScene(classNo);
     }
 
     
