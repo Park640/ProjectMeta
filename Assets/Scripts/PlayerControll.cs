@@ -20,6 +20,7 @@ namespace OpenAI
         [SerializeField] private Animator anim;
         [SerializeField] private Canvas canvas;
 
+        public Transform nicknamePos;
         public CinemachineVirtualCamera[] cameras;
         public PhotonView photon;
 
@@ -45,7 +46,7 @@ namespace OpenAI
 
         public void AboveUIPosition()
         {
-            aboveUI.transform.position = Camera.main.WorldToScreenPoint(transform.position + new Vector3(0, 1.8f, 0));
+            aboveUI.transform.position = Camera.main.WorldToScreenPoint(nicknamePos.position);
         }
         private void Update()
         {
