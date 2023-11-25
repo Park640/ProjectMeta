@@ -4,6 +4,9 @@ using UnityEngine;
 using UnityEngine.InputSystem;
 using UnityEngine.UI;
 using TMPro;
+using Photon.Pun;
+using Photon.Realtime;
+using Cinemachine;
 
 namespace OpenAI
 {
@@ -17,6 +20,8 @@ namespace OpenAI
         [SerializeField] private Animator anim;
         [SerializeField] private Canvas canvas;
 
+        public CinemachineVirtualCamera[] cameras;
+        public PhotonView photon;
         private PlayerInput pInput;
         private int pState = 0;
         private int pCount;
@@ -33,6 +38,13 @@ namespace OpenAI
         }
         private void Update()
         {
+            if (!photon.IsMine)
+            {
+                pInput.enabled = false;
+                cameras[0].enabled = false;
+                cameras[1].enabled = false;
+                return;
+            }
             if (Input.GetKeyDown(KeyCode.P))
             {
                 perspective[pState].SetActive(false);

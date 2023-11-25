@@ -153,18 +153,17 @@ namespace StarterAssets
             _jumpTimeoutDelta = JumpTimeout;
             _fallTimeoutDelta = FallTimeout;
         }
-
         private void Update()
         {
-            if (photon.IsMine)
+            if (!photon.IsMine && !PhotonNetwork.IsConnected)
             {
-                _hasAnimator = TryGetComponent(out _animator);
-
-                JumpAndGravity();
-                GroundedCheck();
-                Move();
+                return;
             }
+            _hasAnimator = TryGetComponent(out _animator);
 
+            JumpAndGravity();
+            GroundedCheck();
+            Move();
         }
 
         private void LateUpdate()
@@ -219,6 +218,10 @@ namespace StarterAssets
 
         private void Move()
         {
+            if (!photon.IsMine && !PhotonNetwork.IsConnected)
+            {
+                return;
+            }
             // set target speed based on move speed, sprint speed and if sprint is pressed
             float targetSpeed = _input.sprint ? SprintSpeed : MoveSpeed;
 
